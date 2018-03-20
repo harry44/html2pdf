@@ -1,0 +1,38 @@
+package com.jtechies;
+
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+
+public class Html2Pdf {
+	public static void main(String[] args) throws DocumentException, IOException {
+		String html = "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>"
+				+ "<html>" + "<head>" + "<title>HTML to PDF</title>"
+				+ " <link href='style.css' rel='stylesheet' type='text/css' />" + " </head>" + "<body>"
+				+ " <h1>HTML to PDF</h1>" + "<p>"
+				+ "<span class='itext'>itext</span> 5.4.2 <span class='description'> converting HTML to PDF</span>"
+				+ "</p>" + "<table>" + "<tr>" + "<th class='label'>Title</th>" + "<td>iText - Java HTML to PDF</td>"
+				+ "</tr>" + "<tr>" + "<th>URL</th>" + "<td>http://hmkcode.com/itext-html-to-pdf-using-java</td>"
+				+ "</tr>" + "</table>" + "</body></html>";
+
+		// step 1
+		InputStream is = new ByteArrayInputStream(html.getBytes());
+		Document document = new Document();
+		// step 2
+		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("pdf.pdf"));
+		// step 3
+		document.open();
+		// step 4
+		XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
+		// step 5
+		document.close();
+
+		System.out.println("PDF Created!");
+	}
+}
